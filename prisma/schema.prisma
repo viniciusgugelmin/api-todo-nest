@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  tasks Task[]
+
+  @@map("users")
+}
+
+model Task {
+  id        Int       @id @default(autoincrement())
+  userId    Int       @map("user_id")
+  statusId  Int       @map("status_id")
+  title     String
+  content   String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  user         User       @relation(fields: [userId], references: [id])
+  status       TaskStatus @relation(fields: [taskStatusId], references: [id])
+  tags         Tag[]
+  taskStatusId Int
+
+  @@map("tasks")
+}
+
+model Tag {
+  id        Int       @id @default(autoincrement())
+  name      String
+  color     String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  tasks Task[]
+
+  @@map("tags")
+}
+
+model TaskStatus {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  tasks Task[]
+
+  @@map("task_statuses")
+}
