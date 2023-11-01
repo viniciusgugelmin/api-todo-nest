@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "migrate:dev": "npx prisma migrate dev --migrations prisma/migrations",
+    "migrate:dev": "npm run dev:load-env npx prisma migrate dev",
     "build": "npm run prod:load-env nest build",
     "start": "npm run dev:load-env nest start",
     "start:dev": "npm run dev:load-env nest start -- --watch",

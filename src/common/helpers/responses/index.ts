@@ -1,4 +1,4 @@
-namespace Responses {
+export namespace Responses {
   type Left<T> = {
     left: T;
     right?: never;
