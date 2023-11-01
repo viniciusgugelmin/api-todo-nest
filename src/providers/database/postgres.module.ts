@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { PostgresService as DatabaseService } from './postgres.service';
+import { PostgresService as DatabaseService } from './services';
 
 @Module({
   providers: [DatabaseService],

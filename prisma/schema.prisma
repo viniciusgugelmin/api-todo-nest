@@ -32,7 +32,7 @@ model Task {
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  user       User         @relation(fields: [userId], references: [id])
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   taskStatus TaskStatus[]
   tags       Tag[]
 
@@ -60,8 +60,8 @@ model TaskStatus {
   updatedAt  DateTime  @updatedAt @map("updated_at")
   deletedAt  DateTime? @map("deleted_at")
 
-  task   Task   @relation(fields: [taskId], references: [id])
-  status Status @relation(fields: [statusId], references: [id])
+  task   Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  status Status @relation(fields: [statusId], references: [id], onDelete: Cascade)
 
   @@id([taskId, statusId])
   @@map("task_status")
