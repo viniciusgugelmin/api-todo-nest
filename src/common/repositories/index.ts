@@ -1,18 +1,19 @@
-import { DatabaseService } from '../../providers/database';
-import { Prisma } from '@prisma/client';
+import {DatabaseService} from '../../providers/database';
+import {Prisma} from '@prisma/client';
 
 export namespace Repositories {
   export class AbstractRepository {
     constructor(
       protected readonly database: DatabaseService,
       protected readonly entity: 'user',
-    ) {}
+    ) {
+    }
 
     async getAll() {
       return this.database[this.entity].findMany({});
     }
 
-    async getOne({ id }: { id: number }) {
+    async getOne({id}: { id: number }) {
       return this.database[this.entity].findFirst({
         where: {
           id,
@@ -20,18 +21,26 @@ export namespace Repositories {
       });
     }
 
-    async createOne({ data }: { data: Prisma.UserCreateInput }) {
+    async getByProperty({property, value}: { property: string; value: any }) {
+      return this.database[this.entity].findFirst({
+        where: {
+          [property]: value,
+        },
+      });
+    }
+
+    async createOne({data}: { data: any }) {
       return this.database[this.entity].create({
         data,
       });
     }
 
     async updateOne({
-      id,
-      data,
-    }: {
+                      id,
+                      data,
+                    }: {
       id: number;
-      data: Prisma.UserUpdateInput;
+      data: any;
     }) {
       return this.database[this.entity].update({
         where: {
@@ -41,7 +50,7 @@ export namespace Repositories {
       });
     }
 
-    async deleteOne({ id }: { id: number }) {
+    async deleteOne({id}: { id: number }) {
       return this.database[this.entity].update({
         where: {
           id,

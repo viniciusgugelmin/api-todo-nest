@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 
-import { Repositories } from '../../../common/repositories';
+import {Repositories} from '../../../common/repositories';
 
-import { DatabaseService } from '../../../providers/database';
+import {DatabaseService} from '../../../providers/database';
 
 @Injectable()
 export class UsersRepository extends Repositories.AbstractRepository {

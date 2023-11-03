@@ -1,14 +1,16 @@
-import { Module } from '@nestjs/common';
+import {Module} from '@nestjs/common';
 
-import { DatabaseModule } from '../../providers/database';
+import {DatabaseModule} from '../../providers/database';
 
-import { UsersController } from './controllers';
-import { UsersService } from './services';
-import { UsersRepository } from './repositories';
+import {UsersController} from './controllers';
+import {UsersService} from './services';
+import {UsersRepository} from './repositories';
+import {HashingModule} from "../../providers/hashing";
 
 @Module({
   controllers: [UsersController],
   providers: [UsersService, UsersRepository],
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, HashingModule],
 })
-export class UsersModule {}
+export class UsersModule {
+}

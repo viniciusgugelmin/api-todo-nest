@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import {ApiProperty} from '@nestjs/swagger';
 
 export namespace Entities {
   export class ValidatonError {
@@ -10,5 +10,13 @@ export namespace Entities {
 
     @ApiProperty()
     statusCode: 400;
+  }
+
+  export class BaseError {
+    @ApiProperty()
+    message: string;
+
+    @ApiProperty()
+    statusCode: number;
   }
 }
