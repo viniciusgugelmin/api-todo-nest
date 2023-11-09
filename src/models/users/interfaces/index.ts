@@ -9,4 +9,6 @@ export namespace UsersInterfaces {
   };
 
   export type SignUpErrors = 'EMAIL_ALREADY_IN_USE';
+
+  export type SignInErrors = 'USER_NOT_FOUND' | 'INVALID_PASSWORD';
 }

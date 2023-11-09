@@ -1,19 +1,19 @@
-import {DatabaseService} from '../../providers/database';
-import {Prisma} from '@prisma/client';
+import { DatabaseService } from '../../providers/database';
+import { Prisma } from '@prisma/client';
+import { UsersInterfaces } from '../../models/users';
 
 export namespace Repositories {
   export class AbstractRepository {
     constructor(
       protected readonly database: DatabaseService,
       protected readonly entity: 'user',
-    ) {
-    }
+    ) {}
 
     async getAll() {
       return this.database[this.entity].findMany({});
     }
 
-    async getOne({id}: { id: number }) {
+    async getOne({ id }: { id: number }) {
       return this.database[this.entity].findFirst({
         where: {
           id,
@@ -21,7 +21,7 @@ export namespace Repositories {
       });
     }
 
-    async getByProperty({property, value}: { property: string; value: any }) {
+    async getByProperty({ property, value }: { property: keyof UsersInterfaces.User; value: any }) {
       return this.database[this.entity].findFirst({
         where: {
           [property]: value,
@@ -29,19 +29,13 @@ export namespace Repositories {
       });
     }
 
-    async createOne({data}: { data: any }) {
+    async createOne({ data }: { data: any }) {
       return this.database[this.entity].create({
         data,
       });
     }
 
-    async updateOne({
-                      id,
-                      data,
-                    }: {
-      id: number;
-      data: any;
-    }) {
+    async updateOne({ id, data }: { id: number; data: any }) {
       return this.database[this.entity].update({
         where: {
           id,
@@ -50,7 +44,7 @@ export namespace Repositories {
       });
     }
 
-    async deleteOne({id}: { id: number }) {
+    async deleteOne({ id }: { id: number }) {
       return this.database[this.entity].update({
         where: {
           id,
