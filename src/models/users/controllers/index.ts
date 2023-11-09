@@ -1,6 +1,6 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Req, Res } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 import { Entities } from '../../../common/entities';
 import { Responses } from '../../../common/responses';
@@ -42,7 +42,7 @@ export class UsersController {
 
   @ApiOkResponse({
     description: 'Sign in',
-    type: UsersEntities.User,
+    type: UsersEntities.SignInResponse,
   })
   @ApiBadRequestResponse({
     description: 'Error: Invalid email or password',
@@ -50,7 +50,7 @@ export class UsersController {
   })
   @Post('sign-in')
   async signIn(@Res() res: Response, @Body() signInDTO: UsersDTOS.SignInDTO) {
-    const signInEither = await this.usersService.signIn(signInDTO);
+    const signInEither = await this.usersService.signIn(signInDTO, res);
 
     if (Responses.isRight(signInEither)) {
       const user = Responses.unwrapEither(signInEither);
@@ -60,6 +60,30 @@ export class UsersController {
 
     const error = Responses.unwrapEither(signInEither);
     const errorObj = UsersHandlers.handleSignInError(error as UsersInterfaces.SignInErrors);
+
+    throw new HttpException(errorObj.message, errorObj.code);
+  }
+
+  @ApiOkResponse({
+    description: 'Get authenticated user',
+    type: UsersEntities.User,
+  })
+  @ApiBadRequestResponse({
+    description: 'Error: User not found',
+    type: Entities.BaseError,
+  })
+  @Get('me')
+  async getMe(@Req() req: Request) {
+    const getMeEither = await this.usersService.getMe(req);
+
+    if (Responses.isRight(getMeEither)) {
+      const user = Responses.unwrapEither(getMeEither);
+
+      return Responses.makeResponse(user, 200);
+    }
+
+    const error = Responses.unwrapEither(getMeEither);
+    const errorObj = UsersHandlers.handleGetMeError(error as UsersInterfaces.GetMeErrors);
 
     throw new HttpException(errorObj.message, errorObj.code);
   }

@@ -1,5 +1,5 @@
-import {HashingService} from "./services";
+import { HashingService } from './services';
 
-import {HashingModule} from "./hashing.module";
+import { HashingModule } from './hashing.module';
 
-export {HashingService, HashingModule}
+export { HashingService, HashingModule };

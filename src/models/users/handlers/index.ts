@@ -12,6 +12,8 @@ export namespace UsersHandlers {
         };
       }
       default: {
+        console.log('handleSignUpError: ', error);
+
         return {
           message: Responses.unknownErrorMessage,
           code: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -30,6 +32,27 @@ export namespace UsersHandlers {
         };
       }
       default: {
+        console.log('handleSignInError: ', error);
+
+        return {
+          message: Responses.unknownErrorMessage,
+          code: HttpStatus.INTERNAL_SERVER_ERROR,
+        };
+      }
+    }
+  }
+
+  export function handleGetMeError(error: UsersInterfaces.GetMeErrors): { message: string; code: number } {
+    switch (error) {
+      case 'USER_NOT_FOUND': {
+        return {
+          message: 'User not found',
+          code: HttpStatus.NOT_FOUND,
+        };
+      }
+      default: {
+        console.log('handleGetMeError: ', error);
+
         return {
           message: Responses.unknownErrorMessage,
           code: HttpStatus.INTERNAL_SERVER_ERROR,

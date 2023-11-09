@@ -24,4 +24,12 @@ export namespace UsersEntities {
     @ApiProperty()
     deletedAt: Date;
   }
+
+  export class SignInResponse implements UsersInterfaces.SignInResponse {
+    @ApiProperty()
+    user: User;
+
+    @ApiProperty()
+    token: string;
+  }
 }
